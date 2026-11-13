@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>menezss — Sites para negócios locais</title>
+<meta name="description" content="Sites rápidos para restaurantes, salões, lojas e prestadores de serviço, com cardápio ou catálogo e pedidos pelo WhatsApp.">
+<meta property="og:title" content="menezss — Sites para negócios locais">
+<meta property="og:description" content="Seu negócio com site próprio e pedidos chegando no WhatsApp.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f2f4ee">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2310201a'/%3E%3Cpath d='M16 44V24h6v3c2-2.500 4-3.500 7-3.500 3 0 5 1.200 6 3.700 2-2.500 4.500-3.700 7.500-3.700 5 0 7.500 3 7.500 8V44h-6V33c0-2.500-1-4-3.200-4S37 30.500 37 33.500V44h-6V33c0-2.500-1-4-3.200-4S22 30.500 22 33.500V44z' fill='%23d9f56b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+/* =====================================================================
+   CONFIGURAÇÃO — edite aqui. Todo o site lê estes dados.
+   ===================================================================== */
+const CONFIG = {
+  nome: "menezss",
+
+  // CONTATOS — deixe "" para esconder o botão correspondente.
+  whatsapp: "",   // DDI + DDD + número, só números. Ex.: "5581999999999"
+  email: "menezssdev@gmail.com",
+  instagram: "",  // só o usuário, sem @
+  github: "menezssdev-ux", // só o usuário
+  cidade: "",     // Ex.: "Recife e região". Vazio = não aparece.
+  mensagemWhats: "Olá! Vi seu portfólio e quero um orçamento de site para o meu negócio.",
+
+  // PROJETOS — o primeiro também aparece no celular do topo da página.
+  // url: caminho da demonstração (pasta projetos/) ou endereço do site publicado.
+  projetos: [
+    {
+      nome: "Vixe Comida Regional",
+      tipo: "Restaurante · Jaboatão dos Guararapes, PE",
+      selo: "Projeto de demonstração",
+      resumo: "Site completo de pedidos para um restaurante de comida regional nordestina: o cliente escolhe, monta o pedido e envia pelo WhatsApp.",
+      itens: [
+        "Cardápio com 26 itens, busca e filtro por categoria",
+        "Itens com opções: proteínas, sabores e monte o seu",
+        "Carrinho com entrega ou retirada, taxa de entrega e forma de pagamento",
+        "Reserva de mesa com horários que respeitam o funcionamento",
+        "Aviso de aberto ou fechado em tempo real, mapa e rota",
+        "Um único arquivo, sem sistema para instalar"
+      ],
+      url: "projetos/vixe/index.html",
+      nota: "Demonstração criada como proposta para o restaurante. Não é o site oficial."
+    }
+  ],
+
+  // PLANOS — valores de referência. Lista vazia ([]) esconde a seção inteira.
+  planos: [
+    {nome: "Site essencial", preco: "R$ 800", sufixo: "", desc: "Página única com apresentação, serviços ou cardápio, WhatsApp, mapa e horários."},
+    {nome: "Site com pedidos", preco: "R$ 1.500", sufixo: "", desc: "Tudo do essencial, mais carrinho, opções por item, entrega ou retirada e reservas.", destaque: true},
+    {nome: "Manutenção", preco: "R$ 80", sufixo: "/mês", desc: "Hospedagem, atualização de preços e itens e suporte quando precisar."}
+  ],
+
+  duvidas: [
+    {p: "Preciso ter domínio e hospedagem?", r: "Não precisa. Eu ajudo a registrar o endereço do site (como seunegocio.com.br) e coloco tudo no ar."},
+    {p: "Consigo mudar preços e itens depois?", r: "Sim. Você pode pedir as mudanças no plano de manutenção, ou eu mostro como alterar por conta própria."},
+    {p: "Quanto tempo leva?", r: "Depende do tamanho do site. O prazo é combinado antes de começar, e você acompanha a prévia durante o processo."},
+    {p: "Tem taxa por pedido?", r: "Não. O pedido vai direto do site para o seu WhatsApp, sem comissão de aplicativo."},
+    {p: "Já tenho Instagram e aplicativo de entrega. Preciso de site?", r: "O site junta tudo num lugar só: cardápio, horários, endereço e pedido. E os pedidos feitos por ele não pagam comissão."}
+  ]
+};
+</script>
+<style>
+:root{
+  --bg:#f2f4ee;--card:#fff;--ink:#10201a;--muted:#52625a;--line:#10201a1f;
+  --verde:#0c8442;--verde2:#096b35;--lima:#d9f56b;--noite:#0e1b16;--noite2:#172a22;
+  --r:18px;--display:"Bricolage Grotesque",system-ui,sans-serif;--texto:"Figtree",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--texto);background:var(--bg);color:var(--ink);line-height:1.55;font-size:17px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:1.02;letter-spacing:-.03em}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--verde);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+section{padding:96px 0;scroll-margin-top:60px}
+.olho{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--verde)}
+.tit{max-width:720px;margin-bottom:44px}
+.tit h2{font-size:clamp(34px,4.6vw,58px);margin-top:12px}
+.tit p{color:var(--muted);font-size:19px;margin-top:16px;max-width:56ch}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 24px;border-radius:999px;font-weight:700;font-size:16.5px;text-decoration:none;background:var(--verde);color:#fff;transition:background .15s,transform .15s}
+.btn:hover{background:var(--verde2);transform:translateY(-1px)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn.linha{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.linha:hover{background:var(--ink);color:var(--bg)}
+.btn.p{padding:10px 18px;font-size:15px}
+
+/* topo */
+header{position:sticky;top:0;z-index:20;background:#f2f4eed9;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:28px;height:68px}
+.marca{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.04em;text-decoration:none}
+.marca i{color:var(--verde);font-style:normal}
+nav{margin-left:auto;display:flex;gap:26px}
+nav a{text-decoration:none;font-weight:600;font-size:15.5px;color:var(--muted)}
+nav a:hover{color:var(--ink)}
+
+/* hero */
+.hero{padding:72px 0 88px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(42px,6.3vw,84px);margin:18px 0 22px}
+mark{background:linear-gradient(transparent 58%,var(--lima) 58%);color:inherit;padding:0 .08em}
+.hero p.sub{font-size:20px;color:var(--muted);max-width:50ch}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin:32px 0 26px}
+.selos{display:flex;gap:10px 22px;flex-wrap:wrap;padding:0;list-style:none;font-size:15px;font-weight:600}
+.selos li{display:flex;align-items:center;gap:8px}
+.selos li::before{content:"";width:18px;height:18px;border-radius:50%;background:var(--lima) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.300l2.600 2.600L13 6.500' fill='none' stroke='%2310201a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;flex:none}
+
+.vitrine{position:relative;justify-self:center;padding:10px 40px 30px 60px}
+.vitrine::before{content:"";position:absolute;inset:40px 0 0 30px;background:var(--lima);border-radius:40px;transform:rotate(-4deg)}
+.fone{position:relative;width:280px;border:10px solid var(--ink);border-radius:42px;background:var(--ink);box-shadow:0 34px 60px -24px #10201a80}
+.fone .tela{border-radius:32px}
+.tela{position:relative;overflow:hidden;background:#fff;aspect-ratio:390/780}
+.tela iframe{position:absolute;top:0;left:0;border:0;display:block;transform-origin:0 0}
+.fone iframe{pointer-events:none}
+.bolha{position:absolute;left:0;bottom:64px;width:236px;background:#e3fbd6;border-radius:4px 16px 16px 16px;padding:12px 14px 8px;font-size:13px;line-height:1.45;box-shadow:0 16px 34px -14px #10201a66;color:#10201a}
+.bolha b{display:block;margin-bottom:4px}
+.bolha small{display:block;text-align:right;font-size:11px;color:#52625a;margin-top:2px}
+.bolha em{font-style:normal;font-weight:700}
+.aviso{position:absolute;right:0;top:44px;display:flex;align-items:center;gap:8px;background:var(--card);border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:700;box-shadow:0 14px 30px -14px #10201a66}
+.aviso i{width:9px;height:9px;border-radius:50%;background:#1faa59;box-shadow:0 0 0 4px #1faa5933}
+
+/* faixa */
+.faixa{background:var(--ink);color:var(--bg);overflow:hidden;white-space:nowrap;padding:16px 0;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.01em}
+.faixa div{display:inline-block;animation:corre 38s linear infinite}
+.faixa span{margin:0 16px}.faixa b{color:var(--lima);font-weight:700}
+@keyframes corre{to{transform:translateX(-50%)}}
+
+/* recursos */
+.grade{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cartao{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px}
+.cartao .ico{width:46px;height:46px;border-radius:12px;background:var(--lima);display:grid;place-items:center;margin-bottom:20px}
+.cartao .ico svg{width:24px;height:24px;fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.cartao h3{font-size:23px;letter-spacing:-.02em;margin-bottom:10px;line-height:1.12}
+.cartao p{color:var(--muted);font-size:16px}
+
+/* trabalho */
+.noite{background:var(--noite);color:#eef2ea}
+.noite .olho{color:var(--lima)}
+.noite .tit p{color:#a9b8ae}
+.caso{display:grid;grid-template-columns:.8fr 1.2fr;gap:52px;align-items:start}
+.caso + .caso{margin-top:88px}
+.caso .selo{display:inline-block;background:var(--lima);color:var(--ink);font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+.caso h3{font-size:clamp(30px,3.6vw,44px);margin:18px 0 6px}
+.caso .tipo{color:#a9b8ae;font-weight:600;font-size:15.5px}
+.caso .res{margin:18px 0 22px;font-size:18px;color:#d5ddd4}
+.caso ul{list-style:none;padding:0;display:grid;gap:11px;margin-bottom:28px}
+.caso li{display:flex;gap:12px;font-size:16px;color:#d5ddd4}
+.caso li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lima);margin-top:9px;flex:none}
+.caso .btn.linha{color:#eef2ea;box-shadow:inset 0 0 0 2px #eef2ea}
+.caso .btn.linha:hover{background:#eef2ea;color:var(--noite)}
+.caso .nota{font-size:13.5px;color:#8a9a90;margin-top:16px}
+.janela{background:var(--noite2);border:1px solid #ffffff1f;border-radius:20px;overflow:hidden}
+.jbar{display:flex;align-items:center;gap:7px;padding:12px 16px;border-bottom:1px solid #ffffff1f}
+.jbar > i{width:11px;height:11px;border-radius:50%;background:#ffffff33}
+.jbar > span{margin-left:10px;font-size:13px;color:#a9b8ae;font-weight:600}
+.alt{margin-left:auto;display:flex;background:#ffffff14;border-radius:999px;padding:3px}
+.alt button{padding:6px 14px;border-radius:999px;font-size:13.5px;font-weight:700;color:#a9b8ae}
+.alt button[aria-pressed=true]{background:var(--lima);color:var(--ink)}
+.palco{padding:22px}
+.palco .tela{margin:0 auto;border-radius:14px;width:100%;aspect-ratio:1280/780}
+.janela[data-modo=celular] .palco .tela{width:min(390px,100%);aspect-ratio:390/760}
+.palco iframe{pointer-events:none}
+.palco .tela.ativo iframe{pointer-events:auto}
+.ativar{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:22px;width:100%}
+.ativar span{background:var(--ink);color:#fff;font-weight:700;font-size:14.5px;padding:11px 20px;border-radius:999px;box-shadow:0 12px 26px -10px #000a}
+.ativar:hover span{background:var(--verde)}
+.tela.ativo .ativar{display:none}
+
+/* passos */
+.passos{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:p;list-style:none;padding:0}
+.passos li{counter-increment:p;border-top:3px solid var(--ink);padding-top:20px}
+.passos li::before{content:"0" counter(p);font-family:var(--display);font-weight:800;font-size:44px;letter-spacing:-.04em;color:var(--verde);display:block;line-height:1;margin-bottom:16px}
+.passos h3{font-size:22px;letter-spacing:-.02em;margin-bottom:8px;line-height:1.12}
+.passos p{color:var(--muted);font-size:16px}
+.quem{margin-top:64px;display:flex;gap:22px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px}
+.quem .av{width:72px;height:72px;border-radius:50%;background:var(--ink);color:var(--lima);font-family:var(--display);font-weight:800;font-size:38px;display:grid;place-items:center;flex:none;line-height:1;padding-bottom:6px}
+.quem p{font-size:18px;max-width:68ch}
+.quem b{font-family:var(--display);font-size:20px}
+
+/* planos */
+.suave{background:#e8ecdf}
+.planos{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.plano{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:30px;display:flex;flex-direction:column}
+.plano.d{background:var(--ink);color:#eef2ea;border-color:var(--ink)}
+.plano h3{font-size:24px;letter-spacing:-.02em}
+.plano .de{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:24px}
+.plano.d .de{color:#a9b8ae}
+.plano .v{font-family:var(--display);font-weight:800;font-size:46px;letter-spacing:-.04em;line-height:1.05}
+.plano .v small{font-size:18px;font-weight:700;letter-spacing:0;color:var(--muted)}
+.plano.d .v{color:var(--lima)}.plano.d .v small{color:#a9b8ae}
+.plano p{color:var(--muted);font-size:16px;margin:16px 0 26px;flex:1}
+.plano.d p{color:#d5ddd4}
+.plano .btn{align-self:flex-start}
+.plano.d .btn{background:var(--lima);color:var(--ink)}
+.plano.d .btn:hover{background:#fff}
+.obs{color:var(--muted);font-size:14.5px;margin-top:20px}
+
+/* dúvidas */
+.duv{max-width:820px}
+details{border-bottom:1px solid var(--line)}
+details:first-child{border-top:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.02em}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:28px;font-weight:500;line-height:1;color:var(--verde);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);padding:0 40px 24px 0;font-size:17px}
+
+/* contato */
+.chama{background:var(--lima);border-radius:32px;padding:64px 56px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center}
+.chama h2{font-size:clamp(34px,4.8vw,62px)}
+.chama p{font-size:19px;margin-top:16px;max-width:44ch}
+.canais{display:grid;gap:12px}
+.canais .btn{width:100%;justify-content:flex-start;padding:17px 24px}
+.canais .btn.linha{background:#ffffff80}
+.canais .btn.linha:hover{background:var(--ink)}
+.falta{border:2px dashed var(--ink);border-radius:16px;padding:20px;font-size:15.5px;font-weight:600}
+footer{padding:32px 0 44px;font-size:14.5px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+@media (max-width:960px){
+  nav{display:none}.bar .btn{margin-left:auto}
+  section{padding:68px 0}
+  .hero{padding:44px 0 64px}
+  .hero .wrap,.caso,.chama{grid-template-columns:1fr}
+  .vitrine{margin-top:12px}
+  .grade,.planos{grid-template-columns:1fr 1fr}
+  .passos{grid-template-columns:1fr 1fr;gap:34px 18px}
+  .chama{padding:44px 28px;border-radius:24px}
+}
+@media (max-width:760px){
+  .alt{display:none}
+}
+@media (max-width:620px){
+  body{font-size:16.5px}
+  .wrap{padding:0 18px}
+  .grade,.planos,.passos{grid-template-columns:1fr}
+  .vitrine{padding:10px 18px 30px 44px}
+  .fone{width:244px}
+  .bolha{width:210px;font-size:12px}
+  .quem{flex-direction:column;align-items:flex-start}
+  .palco{padding:12px}
+  summary{font-size:19px}
+  .cta .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}.faixa div{animation:none}.btn{transition:none}
+}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <a class="marca" href="#topo" aria-label="Início"><span data-nome>menezss</span><i>.</i></a>
+  <nav aria-label="Principal">
+    <a href="#trabalho">Trabalho</a><a href="#recursos">O que faço</a><a href="#como">Como funciona</a><a href="#planos" data-planos>Valores</a><a href="#duvidas">Dúvidas</a>
+  </nav>
+  <a class="btn p" data-zap href="#contato">Pedir orçamento</a>
+</div></header>
+
+<main id="topo">
+<div class="hero"><div class="wrap">
+  <div>
+    <span class="olho">Sites para negócios locais</span>
+    <h1>Seu negócio com site próprio e pedidos chegando no <mark>WhatsApp</mark>.</h1>
+    <p class="sub">Faço sites rápidos e bonitos para restaurantes, salões, lojas e prestadores de serviço. Seu cliente acha você, vê o cardápio ou catálogo e manda o pedido pronto no WhatsApp.</p>
+    <div class="cta">
+      <a class="btn" data-zap href="#contato"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H10l-6 4z"/></svg>Pedir orçamento</a>
+      <a class="btn linha" href="#trabalho">Ver um site funcionando</a>
+    </div>
+    <ul class="selos"><li>Sem comissão por pedido</li><li>Feito para celular</li><li>Você fala direto comigo</li></ul>
+  </div>
+  <figure class="vitrine" aria-label="Exemplo: site de restaurante no celular e o pedido que chega no WhatsApp">
+    <div class="fone"><div class="tela" data-w="390" data-h="780"><iframe id="fone" title="Prévia do site no celular" tabindex="-1" aria-hidden="true"></iframe></div></div>
+    <div class="aviso" aria-hidden="true"><i></i>Aberto agora · até 22h</div>
+    <div class="bolha" aria-hidden="true"><b>Pedido — Vixe Comida Regional</b>1x Oxente — R$ 18,50<br>1x Tapioca 2 sabores (Charque, Queijo coalho) — R$ 12,00<br>Entrega: R$ 6,00<br><em>Total: R$ 36,50</em><small>19:42 ✓✓</small></div>
+  </figure>
+</div></div>
+
+<div class="faixa" aria-hidden="true"><div id="faixa"></div></div>
+
+<section id="recursos"><div class="wrap">
+  <div class="tit"><span class="olho">O que faço</span><h2>O que o seu site faz por você</h2><p>Nada de site enfeite. Cada parte existe para trazer cliente e facilitar o seu atendimento.</p></div>
+  <div class="grade">
+    <article class="cartao"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H10l-6 4z"/><path d="M8 9h8M8 12h5"/></svg></div><h3>Pedido pronto no WhatsApp</h3><p>O cliente monta o pedido no site e ele chega organizado no seu WhatsApp, com itens, total, endereço e forma de pagamento.</p></article>
+    <article class="cartao"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.500 6h.01M4.500 12h.01M4.500 18h.01"/></svg></div><h3>Cardápio ou catálogo sempre em dia</h3><p>Preços, itens e fotos mudam em minutos. Nada de PDF desatualizado ou foto torta do cardápio.</p></article>
+    <article class="cartao"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.200-7-11a7 7 0 0 1 14 0c0 4.800-7 11-7 11z"/><circle cx="12" cy="10" r="2.500"/></svg></div><h3>Fácil de achar e de chegar</h3><p>Endereço, horários, mapa e botão de rota. O site mostra sozinho se você está aberto ou fechado agora.</p></article>
+    <article class="cartao"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2.500"/><path d="M11 17.500h2"/></svg></div><h3>Feito para o celular</h3><p>A maioria dos seus clientes chega pelo celular. O site abre rápido, mesmo com internet fraca.</p></article>
+    <article class="cartao"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2.500"/><path d="M4 10h16M8 3v4M16 3v4"/></svg></div><h3>Reservas e agendamentos</h3><p>Formulário simples que envia a reserva ou o agendamento direto para você confirmar.</p></article>
+    <article class="cartao"><div class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.500"/><path d="M9 15l6-6"/><path d="M9.500 9.500h.01M14.500 14.500h.01"/></svg></div><h3>Sem comissão por pedido</h3><p>O site é seu. Cada pedido vai direto para o seu WhatsApp, sem taxa de aplicativo no meio.</p></article>
+  </div>
+</div></section>
+
+<section class="noite" id="trabalho"><div class="wrap">
+  <div class="tit"><span class="olho">Trabalho</span><h2>Um site de verdade, rodando aqui.</h2><p>Não é imagem. É o site funcionando: toque para testar o cardápio e montar um pedido.</p></div>
+  <div id="projetos"></div>
+</div></section>
+
+<section id="como"><div class="wrap">
+  <div class="tit"><span class="olho">Como funciona</span><h2>Do primeiro oi ao site no ar</h2></div>
+  <ol class="passos">
+    <li><h3>Você me conta do negócio</h3><p>Uma conversa rápida no WhatsApp: o que você vende, como atende e o que precisa.</p></li>
+    <li><h3>Eu monto uma prévia</h3><p>Você vê o site com o nome, as cores e os produtos do seu negócio.</p></li>
+    <li><h3>Ajustamos juntos</h3><p>Você pede as mudanças que quiser até o site ficar com a sua cara.</p></li>
+    <li><h3>Site no ar</h3><p>Publico no seu endereço (como seunegocio.com.br) e mostro como atualizar preços e itens.</p></li>
+  </ol>
+  <div class="quem">
+    <div class="av" aria-hidden="true" id="av">m</div>
+    <p><b>Oi, aqui é <span data-nome>menezss</span>.</b><br>Faço sites para negócios locais: diretos ao ponto, rápidos e fáceis de manter. Você fala comigo do começo ao fim, sem agência no meio.<span id="cidade"></span></p>
+  </div>
+</div></section>
+
+<section class="suave" id="planos"><div class="wrap">
+  <div class="tit"><span class="olho">Valores</span><h2>Quanto custa</h2><p>Preço combinado antes de começar, sem surpresa no final.</p></div>
+  <div class="planos" id="lplanos"></div>
+  <p class="obs">Valores de referência. O orçamento final depende do que o seu negócio precisa.</p>
+</div></section>
+
+<section id="duvidas"><div class="wrap">
+  <div class="tit"><span class="olho">Dúvidas</span><h2>Perguntas comuns</h2></div>
+  <div class="duv" id="lduvidas"></div>
+</div></section>
+
+<section id="contato" style="padding-top:0"><div class="wrap">
+  <div class="chama">
+    <div><h2>Vamos colocar o seu negócio no ar?</h2><p>Me chame e conte o que você precisa. Respondo com uma proposta sem compromisso.</p></div>
+    <div class="canais" id="canais"></div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span id="rod"></span><span id="rod2"></span></div></footer>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const C=CONFIG, zapNum=C.whatsapp.replace(/\D/g,"");
+const zapUrl=zapNum?"https://wa.me/"+zapNum+"?text="+encodeURIComponent(C.mensagemWhats):"";
+const fora=' target="_blank" rel="noopener"';
+
+/* --- nome e textos fixos --- */
+$$("[data-nome]").forEach(e=>e.textContent=C.nome);
+$("#av").textContent=C.nome.trim().charAt(0).toLowerCase();
+if(C.cidade)$("#cidade").textContent=" Atendo em "+C.cidade+" e online.";
+$("#rod").textContent="© "+new Date().getFullYear()+" "+C.nome+" · Sites para negócios locais";
+if(C.github)$("#rod2").innerHTML=`<a href="https://github.com/${esc(C.github)}"${fora}>github.com/${esc(C.github)}</a>`;
+{const t=["Restaurantes","Lanchonetes","Salões","Barbearias","Oficinas","Clínicas","Lojas","Pet shops","Padarias","Academias"].map(x=>`<span>${x}</span><b>●</b>`).join("");$("#faixa").innerHTML=t+t}
+
+/* --- botões de WhatsApp: sem número, levam à seção de contato --- */
+$$("[data-zap]").forEach(a=>{if(zapUrl){a.href=zapUrl;a.target="_blank";a.rel="noopener"}});
+
+/* --- projetos --- */
+$("#projetos").innerHTML=C.projetos.map((p,i)=>`<article class="caso">
+  <div>
+    ${p.selo?`<span class="selo">${esc(p.selo)}</span>`:""}
+    <h3>${esc(p.nome)}</h3><div class="tipo">${esc(p.tipo||"")}</div>
+    <p class="res">${esc(p.resumo||"")}</p>
+    <ul>${(p.itens||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+    <a class="btn linha" href="${esc(p.url)}"${fora}>Abrir em tela cheia ↗</a>
+    ${p.nota?`<p class="nota">${esc(p.nota)}</p>`:""}
+  </div>
+  <div class="janela" data-modo="celular">
+    <div class="jbar"><i></i><i></i><i></i><span>demonstração ao vivo</span>
+      <div class="alt" role="group" aria-label="Tamanho da tela"><button type="button" data-m="celular" aria-pressed="true">Celular</button><button type="button" data-m="pc" aria-pressed="false">Computador</button></div></div>
+    <div class="palco"><div class="tela" data-w="390" data-h="760">
+      <iframe src="${esc(p.url)}" title="Demonstração: ${esc(p.nome)}" loading="lazy"></iframe>
+      <button type="button" class="ativar" aria-label="Testar o site ${esc(p.nome)} aqui"><span>Toque para testar aqui</span></button>
+    </div></div>
+  </div>
+</article>`).join("");
+if(C.projetos[0])$("#fone").src=C.projetos[0].url;
+
+/* --- telas: o iframe tem tamanho de aparelho real e é reduzido para caber --- */
+function ajusta(t){const f=t.querySelector("iframe"),W=+t.dataset.w,H=+t.dataset.h,s=Math.min(1,t.clientWidth/W);
+  f.style.width=W+"px";f.style.height=H+"px";f.style.transform="scale("+s+")";t.style.aspectRatio="auto";t.style.height=Math.round(H*s)+"px"}
+const ro=new ResizeObserver(es=>es.forEach(e=>ajusta(e.target)));
+$$(".tela").forEach(t=>{ajusta(t);ro.observe(t)});
+$$(".janela").forEach(j=>{const t=j.querySelector(".tela");
+  j.querySelectorAll(".alt button").forEach(b=>b.onclick=()=>{const pc=b.dataset.m=="pc";
+    j.dataset.modo=b.dataset.m;t.dataset.w=pc?1280:390;t.dataset.h=pc?780:760;
+    j.querySelectorAll(".alt button").forEach(x=>x.setAttribute("aria-pressed",x==b));ajusta(t)});
+  // O iframe só recebe cliques e rolagem depois do toque, para não prender a rolagem da página.
+  t.querySelector(".ativar").onclick=()=>t.classList.add("ativo");
+  t.onmouseleave=()=>t.classList.remove("ativo")});
+addEventListener("pointerdown",e=>{$$(".tela.ativo").forEach(t=>{if(!t.contains(e.target))t.classList.remove("ativo")})});
+// Em tela estreita só existe a visão de celular.
+matchMedia("(max-width:760px)").addEventListener("change",e=>{if(e.matches)$$('.alt [data-m=celular]').forEach(b=>b.click())});
+
+/* --- planos --- */
+if(C.planos.length){$("#lplanos").innerHTML=C.planos.map(p=>`<article class="plano${p.destaque?" d":""}">
+  <h3>${esc(p.nome)}</h3><div class="de">a partir de</div><div class="v">${esc(p.preco)}<small>${esc(p.sufixo||"")}</small></div>
+  <p>${esc(p.desc)}</p><a class="btn p" href="${zapUrl||"#contato"}"${zapUrl?fora:""}>Quero este</a></article>`).join("")}
+else{$("#planos").hidden=true;$$("[data-planos]").forEach(a=>a.hidden=true)}
+
+/* --- dúvidas --- */
+$("#lduvidas").innerHTML=C.duvidas.map(d=>`<details><summary>${esc(d.p)}</summary><p>${esc(d.r)}</p></details>`).join("");
+
+/* --- contatos --- */
+{const ig=C.instagram.replace(/^@/,""),l=[];
+  if(zapUrl)l.push(`<a class="btn" href="${zapUrl}"${fora}>Chamar no WhatsApp</a>`);
+  if(C.email)l.push(`<a class="btn linha" href="mailto:${esc(C.email)}">${esc(C.email)}</a>`);
+  if(ig)l.push(`<a class="btn linha" href="https://instagram.com/${esc(ig)}"${fora}>Instagram · @${esc(ig)}</a>`);
+  if(C.github)l.push(`<a class="btn linha" href="https://github.com/${esc(C.github)}"${fora}>GitHub · ${esc(C.github)}</a>`);
+  $("#canais").innerHTML=l.join("")||`<div class="falta">Contatos ainda não preenchidos. Abra o index.html e informe WhatsApp, e-mail e Instagram no bloco CONFIG.</div>`}
+</script>
+</body>
+</html>

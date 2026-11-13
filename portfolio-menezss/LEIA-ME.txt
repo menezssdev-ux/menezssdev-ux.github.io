@@ -1,0 +1,23 @@
+PORTFÓLIO — menezss (sites para negócios locais)
+
+Abrir: dê dois cliques em index.html.
+
+Editar: abra index.html num editor e altere o bloco CONFIG no topo:
+  - whatsapp, email, instagram, github: seus contatos. Campo vazio ("") esconde
+    o botão. Enquanto TODOS estiverem vazios, a seção de contato mostra um aviso
+    e os botões "Pedir orçamento" só rolam a página até ela.
+  - cidade: aparece na apresentação (ex.: "Recife e região"). Vazio = não aparece.
+  - projetos: cada projeto vira um bloco com a demonstração ao vivo. O primeiro
+    também aparece no celular do topo da página.
+  - planos: valores de referência (SUGESTÃO inicial, ajuste para o que você cobra).
+    Lista vazia ([]) esconde a seção "Valores".
+  - duvidas: perguntas e respostas.
+
+Demonstrações: ficam em projetos/. A pasta projetos/vixe é uma CÓPIA do site do
+Vixe Comida Regional. Se o site original mudar, copie o index.html de novo para cá.
+
+Novo projeto: crie projetos/nome-do-cliente/index.html e acrescente um item em
+CONFIG.projetos com url: "projetos/nome-do-cliente/index.html".
+
+Publicar: são arquivos estáticos, servem em qualquer hospedagem (GitHub Pages,
+Netlify, Hostinger etc.). Envie a pasta inteira, incluindo projetos/.

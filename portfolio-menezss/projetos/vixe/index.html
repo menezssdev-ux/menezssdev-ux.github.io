@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vixe Comida Regional — Piedade, Jaboatão dos Guararapes</title>
+<meta name="description" content="Comida regional nordestina em Piedade, Jaboatão dos Guararapes. Cuscuz, tapioca, caldos e pedidos pelo WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<script>
+/* =====================================================================
+   CONFIGURAÇÃO — edite aqui. Todo o site lê estes dados.
+   ===================================================================== */
+// Listas de opções usadas em mais de um item do cardápio.
+const PROTEINAS = [
+  {nome:"Frango", preco:17.5}, {nome:"Calabresa", preco:16.5}, {nome:"Galinha guisada", preco:16.5},
+  {nome:"Carne guisada", preco:16.5}, {nome:"Cupim acebolado", preco:19}, {nome:"Charque", preco:18.5},
+  {nome:"Carne de sol", preco:18.5}
+];
+const SABORES_TAPIOCA = ["Calabresa", "Carne de sol", "Charque", "Frango", "Queijo coalho"];
+const CONFIG = {
+  nome: "Vixe Comida Regional",
+  // WhatsApp do restaurante com DDI+DDD, só números. Ex.: "5581999999999".
+  // Vazio = o WhatsApp abre pedindo para escolher o contato.
+  whatsapp: "",
+  endereco: "R. São Sebastião, 688 — Piedade, Jaboatão dos Guararapes — PE, 54410-500",
+  mapsLink: "https://www.google.com/maps/search/?api=1&query=Vixe+Comida+Regional+R.+S%C3%A3o+Sebasti%C3%A3o+688+Piedade+Jaboat%C3%A3o+dos+Guararapes",
+  taxaEntrega: 6.00,
+  demo: true, // false remove a faixa "site de demonstração"
+  // 0=domingo ... 6=sábado. null = fechado. Horas em formato 24h.
+  horarios: [null, [11,22], [11,22], [11,22], [11,22], [11,22], [11,15]],
+  // Cardápio copiado do Anota AI do restaurante (pedido.anota.ai/loja/vixe-comida-regional) em 09/11/2026.
+  // Item simples: {cat, nome, desc, preco}.
+  // Item com escolha: acrescente "grupos" — cada grupo tem titulo, opcoes e qtd (quantas escolher; padrão 1).
+  // Opção com preço ({nome, preco}) soma ao preço do item; sem "preco" no item, vale o preço da opção.
+  cardapio: [
+    {cat:"Cuscuz nosso de cada dia", nome:"Avexado", desc:"Cuscuz com calabresa e ovo frito.", preco:16.5},
+    {cat:"Cuscuz nosso de cada dia", nome:"Oxente", desc:"Cuscuz com carne de sol, queijo coalho e doce de goiabada.", preco:18.5},
+    {cat:"Cuscuz nosso de cada dia", nome:"Se avexe não", desc:"Cuscuz com charque e banana assada com canela.", preco:18.5},
+    {cat:"Cuscuz nosso de cada dia", nome:"Danosse", desc:"Cuscuz com filé de frango e ovo.", preco:17.5},
+    {cat:"Cuscuz nosso de cada dia", nome:"Tá Danado", desc:"Monte o seu: 3 recheios e 1 acompanhamento.", preco:30, grupos:[
+      {titulo:"Recheios", qtd:3, opcoes:["Calabresa", "Charque", "Carne de sol", "Frango"]},
+      {titulo:"Acompanhamento", opcoes:["Queijo", "Ovo", "Banana"]}]},
+    {cat:"Made in Roça", nome:"Inhame", desc:"Servido com a proteína que você escolher.", grupos:[{titulo:"Proteína", opcoes:PROTEINAS}]},
+    {cat:"Made in Roça", nome:"Macaxeira", desc:"Servida com a proteína que você escolher.", grupos:[{titulo:"Proteína", opcoes:PROTEINAS}]},
+    {cat:"Made in Roça", nome:"Batata doce", desc:"Servida com a proteína que você escolher.", grupos:[{titulo:"Proteína", opcoes:PROTEINAS}]},
+    {cat:"Sopas", nome:"Sopa de carne com macarrão", desc:"", preco:16.5},
+    {cat:"Sopas", nome:"Sopa de feijão", desc:"Clássica, nutritiva e reconfortante.", preco:16.5},
+    {cat:"Sopas", nome:"Canja de galinha", desc:"", preco:16.5},
+    {cat:"Tapiocas salgadas", nome:"Tapioca 1 sabor", desc:"Calabresa, carne de sol, charque, frango ou queijo coalho.", preco:10, grupos:[{titulo:"Sabor", opcoes:SABORES_TAPIOCA}]},
+    {cat:"Tapiocas salgadas", nome:"Tapioca 2 sabores", desc:"Dois sabores à sua escolha.", preco:12, grupos:[{titulo:"Sabores", qtd:2, opcoes:SABORES_TAPIOCA}]},
+    {cat:"Tapiocas salgadas", nome:"Tapioca 3 sabores", desc:"Três sabores à sua escolha.", preco:14, grupos:[{titulo:"Sabores", qtd:3, opcoes:SABORES_TAPIOCA}]},
+    {cat:"Tapiocas doces", nome:"Tapioca Romeu e Julieta", desc:"Queijo com goiabada.", preco:14},
+    {cat:"Tapiocas doces", nome:"Tapioca Cartola", desc:"Queijo coalho, banana e canela.", preco:14},
+    {cat:"Caldos", nome:"Caldo de costela", desc:"Com mandioca, bem cremoso — a famosa vaca atolada.", preco:16},
+    {cat:"Caldos", nome:"Caldo de macaxeira com charque", desc:"Base cremosa de macaxeira com charque desfiada e refogada.", preco:16},
+    {cat:"Caldos", nome:"Caldo verde", desc:"Batata, bacon e couve fininha.", preco:16},
+    {cat:"Bebidas", nome:"Água com gás", desc:"", preco:3.5},
+    {cat:"Bebidas", nome:"Água sem gás", desc:"", preco:3},
+    {cat:"Bebidas", nome:"Refrigerante 1L", desc:"Coca-Cola, Coca-Cola Zero, Guaraná, Guaraná Zero ou Pepsi Zero.", preco:10, grupos:[{titulo:"Refrigerante", opcoes:["Coca-Cola", "Coca-Cola Zero", "Guaraná", "Guaraná Zero", "Pepsi Zero"]}]},
+    {cat:"Bebidas", nome:"Suco", desc:"", preco:6},
+    {cat:"Bebidas", nome:"Café", desc:"", preco:4},
+    {cat:"Bebidas", nome:"Café com leite", desc:"", preco:6},
+    {cat:"Bebidas", nome:"Capuccino", desc:"", preco:8}
+  ]
+};
+</script>
+<style>
+:root{--papel:#f6ecd9;--papel2:#efe0c4;--tinta:#1d1712;--urucum:#b8321a;--urucum2:#8f2412;--milho:#e9a820;--folha:#2f5d3a;--cinza:#6b5d4f;--linha:#1d171222}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:"DM Sans",system-ui,sans-serif;background:var(--papel);color:var(--tinta);line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Abril Fatface",Georgia,serif;font-weight:400;line-height:1.05;letter-spacing:.2px}
+a{color:inherit}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+:focus-visible{outline:3px solid var(--milho);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.demo{background:var(--tinta);color:var(--papel);font-size:13px;text-align:center;padding:7px 16px}
+header{position:sticky;top:0;z-index:20;background:var(--papel);border-bottom:2px solid var(--tinta)}
+.bar{display:flex;align-items:center;gap:18px;height:62px}
+.logo{font-family:"Abril Fatface",serif;font-size:26px;text-decoration:none;color:var(--urucum)}
+.logo small{font-family:"DM Sans",sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--tinta);margin-left:6px}
+nav{margin-left:auto;display:flex;gap:22px}
+nav a{text-decoration:none;font-weight:500;font-size:15px}
+nav a:hover{color:var(--urucum)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--urucum);color:#fff;padding:12px 20px;border-radius:4px;font-weight:700;text-decoration:none;border:2px solid var(--tinta);box-shadow:3px 3px 0 var(--tinta);transition:transform .1s,box-shadow .1s}
+.btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--tinta)}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+.btn.alt{background:var(--papel);color:var(--tinta)}
+.btn.zap{background:var(--folha)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.cartbtn{position:relative;padding:9px 14px;box-shadow:2px 2px 0 var(--tinta)}
+.cartbtn b{background:var(--milho);color:var(--tinta);border-radius:20px;min-width:22px;height:22px;display:inline-grid;place-items:center;font-size:12px;padding:0 6px}
+.hero{position:relative;overflow:hidden;border-bottom:2px solid var(--tinta);background:var(--milho)}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;padding-top:64px;padding-bottom:64px}
+.hero h1{font-size:clamp(54px,9vw,116px)}
+.hero h1 span{color:var(--urucum);display:block}
+.hero p{font-size:19px;max-width:44ch;margin:20px 0 28px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.status{display:inline-flex;align-items:center;gap:8px;background:var(--papel);border:2px solid var(--tinta);border-radius:40px;padding:6px 14px;font-size:14px;font-weight:700;margin-bottom:22px}
+.status i{width:10px;height:10px;border-radius:50%;background:var(--urucum)}
+.status.on i{background:#2e9b4f;box-shadow:0 0 0 4px #2e9b4f33}
+.sol{width:100%;max-width:400px;justify-self:center}
+.sol .raios{transform-origin:200px 200px;animation:gira 60s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.sol .raios{animation:none}html{scroll-behavior:auto}}
+.faixa{background:var(--tinta);color:var(--papel);overflow:hidden;white-space:nowrap;padding:10px 0;font-family:"Abril Fatface",serif;font-size:18px;letter-spacing:1px}
+.faixa span{margin:0 18px}.faixa em{color:var(--milho);font-style:normal}
+section{padding:72px 0}
+.tit{display:flex;align-items:end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.tit h2{font-size:clamp(36px,5vw,56px)}
+.tit p{color:var(--cinza);max-width:46ch}
+.ferr{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:22px}
+.chip{padding:8px 16px;border:2px solid var(--tinta);border-radius:40px;font-weight:700;font-size:14px;background:var(--papel)}
+.chip[aria-pressed=true]{background:var(--tinta);color:var(--papel)}
+.busca{margin-left:auto;flex:1 1 200px;max-width:280px}
+input,select,textarea{font:inherit;width:100%;padding:11px 12px;border:2px solid var(--tinta);border-radius:4px;background:#fffaf0;color:var(--tinta)}
+textarea{resize:vertical;min-height:70px}
+label{font-size:13px;font-weight:700;display:block;margin-bottom:5px}
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.item{background:#fffaf0;border:2px solid var(--tinta);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:6px}
+.item .c{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--urucum);font-weight:700}
+.item h3{font-size:23px}
+.item p{color:var(--cinza);font-size:14.5px;flex:1}
+.item .pe{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.preco{font-family:"Abril Fatface",serif;font-size:22px}
+.preco small{display:block;font-family:"DM Sans",sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--cinza);line-height:1.2}
+.add{background:var(--milho);border:2px solid var(--tinta);border-radius:4px;padding:7px 14px;font-weight:700;font-size:14px}
+.add:hover{background:var(--urucum);color:#fff}
+.vazio{padding:30px;text-align:center;color:var(--cinza);border:2px dashed var(--linha);border-radius:6px}
+.escuro{background:var(--tinta);color:var(--papel)}
+.escuro .tit p{color:#cbbda6}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.casa p{font-size:18px;margin-bottom:14px;max-width:52ch}
+.nota{display:inline-flex;gap:10px;align-items:baseline;border:2px solid var(--papel);border-radius:6px;padding:12px 18px;text-decoration:none;margin-top:8px}
+.nota b{font-family:"Abril Fatface",serif;font-size:38px;color:var(--milho);font-weight:400}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px;background:var(--papel);color:var(--tinta);padding:24px;border-radius:6px;border:2px solid var(--milho);scroll-margin-top:84px}
+.form .t{grid-column:1/-1}
+.form h3{font-size:28px}
+.erro{color:var(--urucum);font-size:13px;font-weight:700;min-height:18px}
+table{width:100%;border-collapse:collapse}
+td{padding:11px 4px;border-bottom:1px solid var(--linha)}
+td:last-child{text-align:right;font-weight:700}
+tr.hoje td{color:var(--urucum)}
+tr.hoje td:first-child::after{content:" · hoje";font-size:12px;font-weight:700}
+.mapa{border:2px solid var(--tinta);border-radius:6px;overflow:hidden;box-shadow:5px 5px 0 var(--tinta);min-height:340px;height:100%}
+.mapa iframe{width:100%;height:100%;min-height:340px;border:0;display:block}
+.end{margin:18px 0;font-size:17px}
+footer{border-top:2px solid var(--tinta);padding:26px 0;font-size:14px;color:var(--cinza)}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+/* carrinho */
+.fundo{position:fixed;inset:0;background:#1d1712aa;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
+.fundo.ab{opacity:1;pointer-events:auto}
+aside{position:fixed;top:0;right:0;height:100%;width:min(430px,100%);background:var(--papel);border-left:2px solid var(--tinta);z-index:31;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;visibility:hidden}
+aside.ab{transform:none;visibility:visible}
+aside .cab{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:2px solid var(--tinta)}
+aside .cab h2{font-size:30px}
+.x{font-size:28px;line-height:1;padding:4px 10px}
+aside .corpo{flex:1;overflow:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px}
+.li{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding-bottom:12px;border-bottom:1px solid var(--linha)}
+.li b{font-size:15.5px}
+.li small{display:block;font-weight:400;font-size:13px;color:var(--cinza)}
+/* escolha de opções */
+dialog{border:2px solid var(--tinta);border-radius:6px;padding:0;margin:auto;background:var(--papel);color:var(--tinta);width:min(440px,calc(100% - 24px));max-height:calc(100% - 24px);box-shadow:6px 6px 0 var(--tinta);overflow:hidden}
+dialog::backdrop{background:#1d1712aa}
+dialog form{display:flex;flex-direction:column;max-height:calc(100vh - 28px)}
+dialog .cab{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;border-bottom:2px solid var(--tinta)}
+dialog .cab h2{font-size:28px}
+dialog .corpo{flex:1;overflow:auto;padding:16px 18px 6px}
+fieldset{border:0;padding:0;margin:0 0 14px;min-width:0}
+legend{font-weight:700;font-size:15px;padding:0;margin-bottom:8px}
+legend small{font-weight:400;color:var(--cinza);margin-left:8px}
+.op{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:6px;border:2px solid var(--tinta);border-radius:4px;background:#fffaf0;font-size:15px;font-weight:500;cursor:pointer}
+.op input{width:18px;height:18px;padding:0;margin:0;flex:none;accent-color:var(--urucum)}
+.op span{flex:1}
+.op:has(input:checked){background:var(--milho)}
+.op:has(input:disabled){opacity:.45;cursor:not-allowed}
+.qt{justify-self:start;display:inline-flex;align-items:center;border:2px solid var(--tinta);border-radius:4px;background:#fffaf0}
+.qt button{width:30px;height:28px;font-weight:700}
+.qt span{min-width:24px;text-align:center;font-weight:700;font-size:14px}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--tinta);border-radius:4px;overflow:hidden}
+.seg button{padding:9px;font-weight:700;font-size:14px;background:#fffaf0}
+.seg button[aria-pressed=true]{background:var(--tinta);color:var(--papel)}
+.tot{padding:14px 20px 18px;border-top:2px solid var(--tinta);background:var(--papel2)}
+.tot div{display:flex;justify-content:space-between;font-size:14.5px;margin-bottom:4px}
+.tot .g{font-family:"Abril Fatface",serif;font-size:24px;margin:6px 0 12px}
+.tot .btn{width:100%}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,80px);background:var(--tinta);color:var(--papel);padding:11px 20px;border-radius:40px;font-weight:700;font-size:14px;transition:transform .25s;z-index:40;max-width:90vw}
+.toast.ab{transform:translate(-50%,0)}
+@media (max-width:820px){
+  nav{display:none}.cartbtn{margin-left:auto}
+  .hero .wrap{grid-template-columns:1fr;padding-top:40px;padding-bottom:40px}.sol{max-width:220px;order:-1;justify-self:start}
+  .duas{grid-template-columns:1fr}section{padding:52px 0;scroll-margin-top:24px}.busca{max-width:none;margin-left:0}
+  .form{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="demo" id="demo" hidden>Site de demonstração — proposta para o restaurante. Taxa de entrega a confirmar.</div>
+<header><div class="wrap bar">
+  <a class="logo" href="#topo">Vixe!<small>Comida Regional</small></a>
+  <nav aria-label="Principal"><a href="#cardapio">Cardápio</a><a href="#casa">A casa</a><a href="#reserva">Reservas</a><a href="#onde">Onde fica</a></nav>
+  <button class="btn cartbtn" id="abrir" aria-haspopup="dialog">Pedido <b id="cont">0</b></button>
+</div></header>
+
+<main id="topo">
+<div class="hero"><div class="wrap">
+  <div>
+    <div class="status" id="status" role="status"><i></i><span>…</span></div>
+    <h1>Vixe, <span>que comida boa!</span></h1>
+    <p>Cuscuz, tapioca, caldos e comida regional feita na hora, com aquele atendimento de casa — em Piedade, Jaboatão dos Guararapes.</p>
+    <div class="cta"><a class="btn" href="#cardapio">Ver cardápio e pedir</a><a class="btn alt" href="#reserva">Reservar mesa</a></div>
+  </div>
+  <svg class="sol" viewBox="0 0 400 400" aria-hidden="true">
+    <g class="raios" fill="#b8321a" stroke="#1d1712" stroke-width="4" stroke-linejoin="round" id="raios"></g>
+    <circle cx="200" cy="200" r="112" fill="#f6ecd9" stroke="#1d1712" stroke-width="5"/>
+    <circle cx="200" cy="200" r="92" fill="none" stroke="#1d1712" stroke-width="2" stroke-dasharray="3 7"/>
+    <path d="M132 196h136c0 42-28 70-68 70s-68-28-68-70z" fill="#b8321a" stroke="#1d1712" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M122 196h156" stroke="#1d1712" stroke-width="7" stroke-linecap="round"/>
+    <path d="M170 176c-10-12 10-18 0-32M200 172c-10-12 10-20 0-36M230 176c-10-12 10-18 0-32" fill="none" stroke="#1d1712" stroke-width="5" stroke-linecap="round"/>
+  </svg>
+</div></div>
+<div class="faixa" aria-hidden="true" id="faixa"></div>
+
+<section id="cardapio"><div class="wrap">
+  <div class="tit"><h2>Cardápio</h2><p>Escolha, monte o pedido e envie direto pelo WhatsApp. Entrega ou retirada no balcão.</p></div>
+  <div class="ferr"><div id="chips" class="ferr" style="margin:0" role="group" aria-label="Categorias"></div>
+    <div class="busca"><input id="busca" type="search" placeholder="Buscar no cardápio…" aria-label="Buscar no cardápio"></div></div>
+  <div class="grade" id="grade"></div>
+</div></section>
+
+<section class="escuro" id="casa"><div class="wrap duas">
+  <div class="casa">
+    <div class="tit"><h2>A casa</h2></div>
+    <p>Um cantinho aconchegante em Piedade para comer comida nordestina de verdade: cuscuz recheado, tapioca feita na hora, caldos quentinhos e preço justo.</p>
+    <p>Venha almoçar, jantar ou só tomar um caldo no fim da tarde.</p>
+    <a class="nota" id="nota" target="_blank" rel="noopener"><b>5,0</b><span>no Google · veja as avaliações ↗</span></a>
+  </div>
+  <form class="form" id="reserva" novalidate>
+    <h3 class="t">Reservar mesa</h3>
+    <div class="t"><label for="rn">Nome</label><input id="rn" required autocomplete="name"></div>
+    <div><label for="rd">Data</label><input id="rd" type="date" required></div>
+    <div><label for="rh">Horário</label><select id="rh" required></select></div>
+    <div><label for="rp">Pessoas</label><select id="rp"></select></div>
+    <div><label for="ro">Observação</label><input id="ro" placeholder="Aniversário, cadeirinha…"></div>
+    <div class="t erro" id="rerro" role="alert"></div>
+    <button class="btn zap t" type="submit">Pedir reserva pelo WhatsApp</button>
+  </form>
+</div></section>
+
+<section id="onde"><div class="wrap duas">
+  <div>
+    <div class="tit"><h2>Onde fica</h2></div>
+    <p class="end" id="end"></p>
+    <a class="btn alt" id="rota" target="_blank" rel="noopener">Como chegar ↗</a>
+    <h3 style="font-size:28px;margin:36px 0 8px">Horários</h3>
+    <table id="horas"></table>
+  </div>
+  <div class="mapa"><iframe id="mapa" title="Mapa do restaurante" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span id="rod"></span><span id="rod2"></span></div></footer>
+
+<div class="fundo" id="fundo"></div>
+<aside id="carrinho" role="dialog" aria-modal="true" aria-labelledby="ct">
+  <div class="cab"><h2 id="ct">Seu pedido</h2><button class="x" id="fechar" aria-label="Fechar">×</button></div>
+  <div class="corpo">
+    <div id="itens"></div>
+    <div id="dados">
+      <div class="seg" role="group" aria-label="Como receber"><button type="button" data-m="entrega" aria-pressed="true">Entrega</button><button type="button" data-m="retirada" aria-pressed="false">Retirada</button></div>
+      <div style="display:grid;gap:12px;margin-top:14px">
+        <div><label for="cn">Seu nome</label><input id="cn" autocomplete="name"></div>
+        <div id="cendw"><label for="ce">Endereço de entrega</label><input id="ce" autocomplete="street-address" placeholder="Rua, número, bairro, referência"></div>
+        <div><label for="cp">Pagamento</label><select id="cp"><option>Pix</option><option>Cartão na entrega</option><option>Dinheiro</option></select></div>
+        <div id="ctrw" hidden><label for="ctr">Troco para quanto?</label><input id="ctr" inputmode="decimal" placeholder="Ex.: 100"></div>
+        <div><label for="cob">Observações</label><textarea id="cob" placeholder="Sem coentro, ponto da carne…"></textarea></div>
+        <div class="erro" id="cerro" role="alert"></div>
+      </div>
+    </div>
+  </div>
+  <div class="tot">
+    <div><span>Subtotal</span><span id="sub"></span></div>
+    <div id="txw"><span>Entrega</span><span id="tx"></span></div>
+    <div class="g"><span>Total</span><span id="total"></span></div>
+    <button class="btn zap" id="enviar">Enviar pedido pelo WhatsApp</button>
+  </div>
+</aside>
+<dialog id="esc" aria-labelledby="et"><form id="ef" novalidate>
+  <div class="cab"><h2 id="et"></h2><button class="x" type="button" id="ex" aria-label="Fechar">×</button></div>
+  <div class="corpo" id="eg"></div>
+  <div class="tot">
+    <div class="erro" id="eerro" role="alert"></div>
+    <div class="g"><span>Valor</span><span id="ep"></span></div>
+    <button class="btn" type="submit">Adicionar ao pedido</button>
+  </div>
+</form></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const $=s=>document.querySelector(s), R$=v=>v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+const DIAS=["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const zap=t=>window.open("https://wa.me/"+CONFIG.whatsapp.replace(/\D/g,"")+"?text="+encodeURIComponent(t),"_blank","noopener");
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("ab");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("ab"),2200)}
+const hh=h=>String(Math.floor(h)).padStart(2,"0")+"h"+(h%1?"30":"");
+
+/* --- dados fixos --- */
+if(CONFIG.demo)$("#demo").hidden=false;
+$("#end").textContent=CONFIG.endereco;
+$("#rota").href=$("#nota").href=CONFIG.mapsLink;
+$("#mapa").src="https://www.google.com/maps?q="+encodeURIComponent(CONFIG.nome+", "+CONFIG.endereco)+"&output=embed";
+$("#rod").textContent="© "+new Date().getFullYear()+" "+CONFIG.nome+" · "+CONFIG.endereco;
+$("#rod2").textContent=CONFIG.demo?"Proposta de site — demonstração":"";
+$("#faixa").innerHTML=Array(8).fill("<span>Cuscuz</span><em>✶</em><span>Tapioca</span><em>✶</em><span>Comida regional</span><em>✶</em><span>Feito na hora</span><em>✶</em>").join("");
+{let r="";for(let i=0;i<16;i++)r+=`<path d="M200 22l16 62h-32z" transform="rotate(${i*22.5} 200 200)"/>`;$("#raios").innerHTML=r}
+
+/* --- aberto/fechado (hora de Recife) --- */
+function agora(){const p=Object.fromEntries(new Intl.DateTimeFormat("en-US",{timeZone:"America/Recife",weekday:"short",hour:"2-digit",minute:"2-digit",hour12:false}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  return{d:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].indexOf(p.weekday),h:(+p.hour%24)+ +p.minute/60}}
+function status(){const {d,h}=agora(),H=CONFIG.horarios,e=$("#status");let t,on=false;
+  if(H[d]&&h>=H[d][0]&&h<H[d][1]){on=true;t="Aberto agora · até "+hh(H[d][1])}
+  else if(H[d]&&h<H[d][0])t="Fechado · abre hoje às "+hh(H[d][0]);
+  else{let i=1;while(i<8&&!H[(d+i)%7])i++;const n=(d+i)%7;t=H[n]?"Fechado · abre "+(i==1?"amanhã":DIAS[n].toLowerCase())+" às "+hh(H[n][0]):"Fechado"}
+  e.classList.toggle("on",on);e.querySelector("span").textContent=t;
+  $("#horas").innerHTML=[1,2,3,4,5,6,0].map(i=>`<tr class="${i==d?"hoje":""}"><td>${DIAS[i]}</td><td>${H[i]?hh(H[i][0])+" – "+hh(H[i][1]):"Fechado"}</td></tr>`).join("")}
+status();setInterval(status,60000);
+
+/* --- cardápio --- */
+// Cada item ganha: id, grupos normalizados (ou null), vari (preço depende da escolha) e min (menor preço possível).
+const M=CONFIG.cardapio.map((x,i)=>{
+  const grupos=(x.grupos||[]).map(g=>({titulo:g.titulo,qtd:g.qtd||1,opcoes:g.opcoes.map(o=>typeof o=="string"?{nome:o}:o)}));
+  const min=(x.preco||0)+grupos.reduce((a,g)=>a+g.opcoes.map(o=>o.preco||0).sort((p,q)=>p-q).slice(0,g.qtd).reduce((s,p)=>s+p,0),0);
+  return{...x,id:i,grupos:grupos.length?grupos:null,vari:grupos.some(g=>g.opcoes.some(o=>o.preco)),min}});
+let cat="Tudo";
+const cats=["Tudo",...new Set(M.map(x=>x.cat))];
+function chips(){$("#chips").innerHTML=cats.map(c=>`<button class="chip" aria-pressed="${c==cat}" data-c="${esc(c)}">${esc(c)}</button>`).join("")}
+function grade(){const q=$("#busca").value.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+  const n=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+  const l=M.filter(x=>(cat=="Tudo"||x.cat==cat)&&(!q||n([x.nome,x.desc,x.cat,...(x.grupos||[]).flatMap(g=>g.opcoes.map(o=>o.nome))].join(" ")).includes(q)));
+  $("#grade").innerHTML=l.length?l.map(x=>`<article class="item"><span class="c">${esc(x.cat)}</span><h3>${esc(x.nome)}</h3><p>${esc(x.desc)}</p><div class="pe"><span class="preco">${x.vari?"<small>a partir de</small>":""}${R$(x.min)}</span><button class="add" data-id="${x.id}" aria-label="${x.grupos?"Escolher opções de":"Adicionar"} ${esc(x.nome)}"${x.grupos?' aria-haspopup="dialog"':""}>${x.grupos?"Escolher":"+ Adicionar"}</button></div></article>`).join(""):`<div class="vazio" style="grid-column:1/-1">Nada encontrado. Tente outra busca.</div>`}
+$("#chips").onclick=e=>{const b=e.target.closest("[data-c]");if(b){cat=b.dataset.c;chips();grade()}};
+$("#busca").oninput=grade;
+$("#grade").onclick=e=>{const b=e.target.closest("[data-id]");if(!b)return;const id=+b.dataset.id;
+  if(M[id].grupos){escolhe(id);return}
+  C[id]=(C[id]||0)+1;salva();pinta();toast(M[id].nome+" adicionado ao pedido")};
+chips();grade();
+
+/* --- escolha de opções (itens com "grupos") --- */
+let eid=0;
+const marcados=()=>M[eid].grupos.map((g,j)=>[...$("#eg").querySelectorAll(`[name=g${j}]:checked`)].map(i=>+i.value));
+function escolhe(id){const x=M[id];eid=id;$("#et").textContent=x.nome;$("#eerro").textContent="";
+  $("#eg").innerHTML=x.grupos.map((g,j)=>`<fieldset><legend>${esc(g.titulo)}<small>escolha ${g.qtd}</small></legend>`+g.opcoes.map((o,n)=>`<label class="op"><input type="${g.qtd>1?"checkbox":"radio"}" name="g${j}" value="${n}"><span>${esc(o.nome)}</span>${o.preco?`<b>${x.preco?"+ ":""}${R$(o.preco)}</b>`:""}</label>`).join("")+`</fieldset>`).join("");
+  valor();document.body.style.overflow="hidden";$("#esc").showModal()}
+// Atualiza o valor, trava as opções que sobram quando o grupo já está completo e diz se está tudo escolhido.
+function valor(){const x=M[eid],m=marcados();let p=x.preco||0,ok=true;
+  x.grupos.forEach((g,j)=>{m[j].forEach(n=>p+=g.opcoes[n].preco||0);if(m[j].length!=g.qtd)ok=false;
+    if(g.qtd>1)$("#eg").querySelectorAll(`[name=g${j}]:not(:checked)`).forEach(i=>i.disabled=m[j].length>=g.qtd)});
+  $("#ep").textContent=x.vari&&!ok?"—":R$(p);return ok}
+$("#eg").onchange=()=>{$("#eerro").textContent="";valor()};
+$("#ef").onsubmit=e=>{e.preventDefault();const x=M[eid],m=marcados();
+  if(!valor()){const g=x.grupos[m.findIndex((v,j)=>v.length!=x.grupos[j].qtd)];$("#eerro").textContent=`Escolha ${g.qtd>1?g.qtd+" opções":"uma opção"} em “${g.titulo}”.`;return}
+  const k=eid+"|"+m.map(v=>v.join(",")).join("|");C[k]=(C[k]||0)+1;salva();pinta();$("#esc").close();toast(x.nome+" adicionado ao pedido")};
+$("#ex").onclick=()=>$("#esc").close();
+$("#esc").onclick=e=>{if(e.target==$("#esc"))$("#esc").close()}; // clique fora da caixa fecha
+$("#esc").onclose=()=>{document.body.style.overflow=""};
+
+/* --- carrinho --- */
+// Chave do carrinho: "id" para item simples, ou "id|opções do grupo 1|opções do grupo 2" (índices separados por vírgula).
+// linha(chave) devolve {nome, det, preco} ou null se a chave não bater com o cardápio.
+function linha(k){const [i,...gs]=String(k).split("|"),x=/^\d+$/.test(i)?M[+i]:null;if(!x)return null;
+  const G=x.grupos||[];if(gs.length!=G.length)return null;let p=x.preco||0;const det=[];
+  for(let j=0;j<G.length;j++){const ix=gs[j].split(",").map(Number),os=ix.map(n=>G[j].opcoes[n]);
+    if(ix.length!=G[j].qtd||new Set(ix).size!=ix.length||os.some(o=>!o))return null;
+    os.forEach(o=>p+=o.preco||0);det.push((G.length>1?G[j].titulo+": ":"")+os.map(o=>o.nome).join(", "))}
+  return{nome:x.nome,det:det.join(" · "),preco:p}}
+let C={},modo="entrega";
+// VER muda quando o cardápio muda: um carrinho salvo com o cardápio antigo é descartado.
+const VER=[...JSON.stringify(CONFIG.cardapio)].reduce((a,c)=>(a*31+c.charCodeAt(0))|0,0);
+try{const s=JSON.parse(localStorage.getItem("vixe_carrinho")||"{}");if(s.v===VER)for(const k in s.c)if(linha(k)&&Number.isInteger(s.c[k])&&s.c[k]>0)C[k]=s.c[k]}catch(e){}
+function salva(){try{localStorage.setItem("vixe_carrinho",JSON.stringify({v:VER,c:C}))}catch(e){}}
+function pinta(){const L=Object.keys(C).map(k=>({k,q:C[k],...linha(k)})),n=L.reduce((a,l)=>a+l.q,0),sub=L.reduce((a,l)=>a+l.q*l.preco,0),tx=modo=="entrega"&&n?CONFIG.taxaEntrega:0;
+  $("#cont").textContent=n;
+  $("#itens").innerHTML=n?L.map(l=>`<div class="li"><b>${esc(l.nome)}${l.det?`<small>${esc(l.det)}</small>`:""}</b><b>${R$(l.preco*l.q)}</b><span class="qt"><button data-q="-1" data-k="${l.k}" aria-label="Diminuir">−</button><span>${l.q}</span><button data-q="1" data-k="${l.k}" aria-label="Aumentar">+</button></span><button data-k="${l.k}" data-q="0" style="font-size:13px;text-decoration:underline;color:var(--cinza)">remover</button></div>`).join(""):`<div class="vazio">Seu pedido está vazio.<br>Adicione itens do cardápio.</div>`;
+  $("#dados").hidden=!n;$("#sub").textContent=R$(sub);$("#tx").textContent=R$(tx);$("#txw").style.display=modo=="entrega"?"":"none";$("#total").textContent=R$(sub+tx);$("#enviar").disabled=!n;return{sub,tx,L}}
+$("#itens").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;const k=b.dataset.k,q=+b.dataset.q;if(q==0)delete C[k];else{C[k]+=q;if(C[k]<1)delete C[k]}salva();pinta()};
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{modo=b.dataset.m;document.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-pressed",x==b));$("#cendw").hidden=modo!="entrega";pinta()});
+$("#cp").onchange=()=>$("#ctrw").hidden=$("#cp").value!="Dinheiro";
+let foco;
+function abre(v){$("#carrinho").classList.toggle("ab",v);$("#fundo").classList.toggle("ab",v);document.body.style.overflow=v?"hidden":"";if(v){foco=document.activeElement;$("#fechar").focus()}else if(foco)foco.focus()}
+$("#abrir").onclick=()=>abre(true);$("#fechar").onclick=$("#fundo").onclick=()=>abre(false);
+addEventListener("keydown",e=>{if(e.key=="Escape"&&$("#carrinho").classList.contains("ab"))abre(false)});
+$("#enviar").onclick=()=>{const nome=$("#cn").value.trim(),end=$("#ce").value.trim(),er=$("#cerro");
+  if(!nome){er.textContent="Informe seu nome.";$("#cn").focus();return}
+  if(modo=="entrega"&&!end){er.textContent="Informe o endereço de entrega.";$("#ce").focus();return}
+  er.textContent="";const {sub,tx,L}=pinta();
+  let t=`*Pedido — ${CONFIG.nome}*\n\n`+L.map(l=>`${l.q}x ${l.nome}${l.det?` (${l.det})`:""} — ${R$(l.preco*l.q)}`).join("\n")+`\n\nSubtotal: ${R$(sub)}`;
+  if(modo=="entrega")t+=`\nEntrega: ${R$(tx)}`;
+  t+=`\n*Total: ${R$(sub+tx)}*\n\nNome: ${nome}\n`+(modo=="entrega"?`Entrega em: ${end}`:"Retirada no balcão")+`\nPagamento: ${$("#cp").value}`;
+  if($("#cp").value=="Dinheiro"&&$("#ctr").value.trim())t+=` (troco para R$ ${$("#ctr").value.trim()})`;
+  if($("#cob").value.trim())t+=`\nObs.: ${$("#cob").value.trim()}`;
+  zap(t);C={};salva();pinta();abre(false);toast("Pedido montado! Confirme o envio no WhatsApp.")};
+pinta();
+
+/* --- reserva --- */
+const hoje=new Date(Date.now()-3*36e5).toISOString().slice(0,10);$("#rd").min=hoje;$("#rd").value=hoje;
+$("#rp").innerHTML=Array.from({length:12},(_,i)=>`<option${i==1?" selected":""}>${i+1}</option>`).join("");
+function horasRes(){const v=$("#rd").value,d=v?new Date(v+"T12:00").getDay():-1,H=CONFIG.horarios[d],s=$("#rh");
+  if(!H){s.innerHTML="<option value=''>Fechado neste dia</option>";return}
+  const min=v==hoje?agora().h:-1; // se a data for hoje, só horários que ainda não passaram
+  let o="";for(let h=H[0];h<=H[1]-1;h+=.5)if(h>min)o+=`<option>${hh(h).replace("h",":").replace(/:$/,":00")}</option>`;
+  s.innerHTML=o||"<option value=''>Sem horários para hoje</option>"}
+$("#rd").onchange=horasRes;horasRes();
+$("#reserva").onsubmit=e=>{e.preventDefault();const n=$("#rn").value.trim(),d=$("#rd").value,h=$("#rh").value,er=$("#rerro");
+  if(!n){er.textContent="Informe seu nome.";$("#rn").focus();return}
+  if(!d||d<hoje){er.textContent="Escolha uma data válida.";return}
+  if(!h){er.textContent="Não há horários disponíveis nesta data. Escolha outra.";return}
+  if(d==hoje&&(+h.slice(0,2)+(h.slice(3)=="30"?.5:0))<=agora().h){horasRes();er.textContent="Esse horário já passou. Escolha outro.";return}
+  er.textContent="";const [a,m,di]=d.split("-");
+  let t=`*Reserva — ${CONFIG.nome}*\n\nNome: ${n}\nData: ${di}/${m}/${a} (${DIAS[new Date(d+"T12:00").getDay()]})\nHorário: ${h}\nPessoas: ${$("#rp").value}`;
+  if($("#ro").value.trim())t+=`\nObs.: ${$("#ro").value.trim()}`;zap(t);toast("Reserva montada! Confirme o envio no WhatsApp.")};
+</script>
+</body>
+</html>
